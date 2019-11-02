@@ -134,15 +134,21 @@ class Multipole():
         # density is density that lives on a grid
 
         # loop over cells
+        self.Rlmc = self.g.scratch_array()
+        self.Rlms = self.g.scratch_array()
+        self.Ilmc = self.g.scratch_array()
+        self.Ilms = self.g.scratch_array()
         for i in range(self.g.nx):
             for j in range(self.g.ny):
                 for k in range(self.g.nz):
-                    self.Rlmc, self.Rlms = calcR_lm(l, m, self.x[i, j, k],
-                                                    self.y[i, j, k],
-                                                    self.z[i, j, k])
-                    self.Ilmc, self.Ilms = calcI_lm(l, m, self.x[i, j, k],
-                                                    self.y[i, j, k],
-                                                    self.z[i, j, k])
+                    self.Rlmc[i, j, k], self.Rlms[i, j, k] = calcR_lm(l, m,
+                                                                      self.x[i, j, k],
+                                                                      self.y[i, j, k],
+                                                                      self.z[i, j, k])
+                    self.Ilmc[i, j, k], self.Ilms[i, j, k] = calcI_lm(l, m,
+                                                                      self.x[i, j, k],
+                                                                      self.y[i, j, k],
+                                                                      self.z[i, j, k])
 
     # @jit
     def calcML(self):
@@ -219,8 +225,7 @@ class Multipole():
 
         for i in range(self.g.nx):
             for k in range(self.g.nz):
-                mtilde_rc[i, k], mtilde_rs[i, k],
-                mtilde_ic[i, k], mtilde_is[i, k] = self.sample_mtilde(
+                mtilde_rc[i, k], mtilde_rs[i, k], mtilde_ic[i, k], mtilde_is[i, k] = self.sample_mtilde(
                     radius[i, j, k])
 
                 Rlmc[i, k], Rlms[i, k] = calcR_lm(l, m, x[i, j, k],
@@ -264,11 +269,8 @@ class Multipole():
                 MulFace_plus_x = self.calcMulFaceY(dx, 0, 0, j, l, m)
                 MulFace_plus_y = self.calcMulFaceY(0, dy, 0, j, l, m)
                 MulFace_plus_z = self.calcMulFaceY(0, 0, dz, j, l, m)
-                phiY += -sc.G*(MulFace_minus_x +
-                               MulFace_minus_y +
-                               MulFace_minus_z +
-                               MulFace_plus_x +
-                               MulFace_plus_y +
-                               MulFace_plus_z)/6
+                phiY += -sc.G*(MulFace_minus_x + MulFace_minus_y +
+                               MulFace_minus_z + MulFace_plus_x +
+                               MulFace_plus_y + MulFace_plus_z)/6
 
         return phiY
