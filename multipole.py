@@ -1,6 +1,6 @@
 from numba import jit
 import numpy as np
-import scipy.special as sc
+import scipy.constants as sc
 
 
 # @jit
@@ -19,7 +19,8 @@ def calcR_lm(l, m, x, y, z):
     if(l == 0):
         return R_mmc, R_mms
     else:
-        R_m1m1c = R_mmc, R_m1m1s = R_mms
+        R_m1m1c = R_mmc
+        R_m1m1s = R_mms
         for n in range(1, m+1):
             R_mmc = -(x*R_m1m1c-y*R_m1m1s)/(2*n)
             R_mms = -(y*R_m1m1c+x*R_m1m1s)/(2*n)
@@ -42,8 +43,8 @@ def calcR_lm(l, m, x, y, z):
                 R_l2ms = R_mms
                 r = np.sqrt(x**2+y**2+z**2)
                 for n in range(m+2, l+1):
-                    R_lmc = ((2*n-1)*z*R_l1mc-r**2*R_l2mc)/((n+m)(n-m))
-                    R_lms = ((2*n-1)*z*R_l1ms-r**2*R_l2ms)/((n+m)(n-m))
+                    R_lmc = ((2*n-1)*z*R_l1mc-r**2*R_l2mc)/((n+m)*(n-m))
+                    R_lms = ((2*n-1)*z*R_l1ms-r**2*R_l2ms)/((n+m)*(n-m))
                     R_l2mc = R_l1mc
                     R_l1mc = R_lmc
                     R_l2ms = R_l1ms
@@ -67,7 +68,8 @@ def calcI_lm(l, m, x, y, z):
     if(l == 0):
         return I_mmc, I_mms
     else:
-        I_m1m1c = I_mmc, I_m1m1s = I_mms
+        I_m1m1c = I_mmc
+        I_m1m1s = I_mms
         for n in range(1, m+1):
             I_mmc = -(2*n-1)*(x*I_m1m1c-y*I_m1m1s)/(r**2)
             I_mms = -(2*n-1)*(y*I_m1m1c+x*I_m1m1s)/(r**2)
@@ -269,8 +271,13 @@ class Multipole():
                 MulFace_plus_x = self.calcMulFaceY(dx, 0, 0, j, l, m)
                 MulFace_plus_y = self.calcMulFaceY(0, dy, 0, j, l, m)
                 MulFace_plus_z = self.calcMulFaceY(0, 0, dz, j, l, m)
+                '''
                 phiY += -sc.G*(MulFace_minus_x + MulFace_minus_y +
                                MulFace_minus_z + MulFace_plus_x +
                                MulFace_plus_y + MulFace_plus_z)/6
+                               '''
+                phiY += (MulFace_minus_x + MulFace_minus_y +
+                         MulFace_minus_z + MulFace_plus_x +
+                         MulFace_plus_y + MulFace_plus_z)/6
 
         return phiY
