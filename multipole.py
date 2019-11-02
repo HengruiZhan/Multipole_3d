@@ -281,3 +281,84 @@ class Multipole():
                          MulFace_plus_y + MulFace_plus_z)/6
 
         return phiY
+    
+    @jit
+    def calcMulFace(self, dx, dy, dz, l, m):
+        # calculate the contribution of M_lm^R^tilde * conj(I_lm) +
+        # conj(M_lm^I^tilde)*R_lm
+        # at the face of the cell
+        # for all the points in the space
+
+        # x, y, z coordinates of all surfaces of grid cell
+        x = self.x + dx
+        y = self.y + dy
+        z = self.z + dz
+
+        radius = np.sqrt(x**2 + y**2 + z**2)
+
+        mulFace_lm = self.g.scratch_array()
+        mtilde_rc = self.g.scratch_array()
+        mtilde_rs = self.g.scratch_array()
+        mtilde_ic = self.g.scratch_array()
+        mtilde_is = self.g.scratch_array()
+        Rlmc = self.self.g.scratch_array()
+        Rlms = self.g.scratch_array()
+        Ilmc = self.g.scratch_array()
+        Ilms = self.g.scratch_array()
+
+        for i in range(self.g.nx):
+            for j in range(self.g.ny):
+                for k in range(self.g.nz):
+                    mtilde_rc[i, j, k], mtilde_rs[i, j, k], mtilde_ic[i, j, k], mtilde_is[i, j, k] = self.sample_mtilde(
+                        radius[i, j, k])
+
+                    Rlmc[i, j, k], Rlms[i, j, k] = calcR_lm(l, m, x[i, j, k],
+                                                            y[i, j, k], z[i, j, k])
+                    Ilmc[i, j, k], Ilms[i, j, k] = calcI_lm(l, m, x[i, j, k],
+                                                            y[i, j, k], z[i, j, k])
+
+        if(m == 0):
+            mulFace_lm = mtilde_rc*Ilmc+mtilde_ic*Rlmc
+        else:
+            mulFace_lm = 2*(mtilde_rc*Ilmc+mtilde_rs*Ilms +
+                            mtilde_ic*Rlmc+mtilde_is*Rlms)
+
+        return mulFace_lm
+
+    @ jit
+    def Phi(self, j):
+        # calculate the potential for all the points in the space
+        dx = self.g.dx/2
+        dy = self.g.dy/2
+        dz = self.g.dz/2
+
+        '''
+        area_x = self.g.dy*self.g.dz
+        area_y = self.g.dz*self.g.dz
+        area_z = self.g.dx*self.g.dy
+        total_area = 2*(area_x+area_y+area_z)
+        '''
+
+        phi = self.g.self.g.scratch_array()
+
+        # for mass distribution symmetric with respect to center of expansion
+        for l in range(0, self.lmax+1, 2):
+            for m in range(0, l+1):
+                self.calcSolHarm(l, m)
+                self.calcML()
+                MulFace_minus_x = self.calcMulFace(-dx, 0, 0, j, l, m)
+                MulFace_minus_y = self.calcMulFace(0, -dy, 0, j, l, m)
+                MulFace_minus_z = self.calcMulFace(0, 0, -dz, j, l, m)
+                MulFace_plus_x = self.calcMulFace(dx, 0, 0, j, l, m)
+                MulFace_plus_y = self.calcMulFace(0, dy, 0, j, l, m)
+                MulFace_plus_z = self.calcMulFace(0, 0, dz, j, l, m)
+                '''
+                phiY += -sc.G*(MulFace_minus_x + MulFace_minus_y +
+                               MulFace_minus_z + MulFace_plus_x +
+                               MulFace_plus_y + MulFace_plus_z)/6
+                               '''
+                phi += (MulFace_minus_x + MulFace_minus_y +
+                        MulFace_minus_z + MulFace_plus_x +
+                        MulFace_plus_y + MulFace_plus_z)/6
+
+        return phi
