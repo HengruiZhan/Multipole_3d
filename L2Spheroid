@@ -1,0 +1,36 @@
+evaluated at cell face
+a1 = 0.23
+a3 = 0.10
+
+lmax = 10
+resolution =  16, L2 norm error is 0.20030342668885806
+resolution =  32, L2 norm error is 0.018610704348759645
+resolution =  64, L2 norm error is 0.00714107096959364
+
+a3 = 0.10
+e = 0.5
+without renormalized mass
+lmax = 20
+resolution =  16, L2 norm error is 0.10034880119347735
+resolution =  32, L2 norm error is 0.007181225457916698
+resolution =  64, L2 norm error is 0.005523641888835378
+
+lmax = 30
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is
+resolution =  64, L2 norm error is 0.0054889227015333135
+
+a3 = 0.10
+e = 0.9
+lmax = 10
+resolution =  16, L2 norm error is 0.03029645184414015
+resolution =  32, L2 norm error is 0.0031523162477898746
+
+lmax = 30
+resolution =  64, L2 norm error is  0.0008386730445631784
+
+evaluated at the cell center
+a3 = 0.10
+e = 0.9
+lmax = 30
+resolution =  64, L2 norm error is  0.0010090558245069998
