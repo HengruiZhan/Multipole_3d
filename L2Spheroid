@@ -26,11 +26,18 @@ lmax = 10
 resolution =  16, L2 norm error is 0.03029645184414015
 resolution =  32, L2 norm error is 0.0031523162477898746
 
-lmax = 30
-resolution =  64, L2 norm error is  0.0008386730445631784
-
-evaluated at the cell center
 a3 = 0.10
 e = 0.9
 lmax = 30
+resolution =  16, L2 norm error is 0.08426054458416174
+resolution =  32, L2 norm error is 0.014294991306746064
+resolution =  64, L2 norm error is 0.0008386730445631784
+
+evaluated at the cell center
+with normalized density
+a3 = 0.10
+e = 0.9
+lmax = 30
+resolution =  16, L2 norm error is  0.055301655494421835
+resolution =  32, L2 norm error is  0.0072772499161900695
 resolution =  64, L2 norm error is  0.0010090558245069998
