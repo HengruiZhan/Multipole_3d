@@ -17,11 +17,72 @@ resolution =  64, L2 norm error is 0.005523641888835378
 
 lmax = 30
 resolution =  16, L2 norm error is
-resolution =  32, L2 norm error is
+resolution =  32, L2 norm error is 0.006449065673585381
 resolution =  64, L2 norm error is 0.0054889227015333135
 
 a3 = 0.10
+e = 0.5
+limit(-0.25, 0.25)
+with renormalized mass
+evaluated at cell faces
+lmax = 10
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is 0.0009139995337476297
+resolution =  64, L2 norm error is 0.0004538954780179209
+
+lmax = 20
+resolution =  16, L2 norm error is 0.010477401031663206
+resolution =  32, L2 norm error is 0.0011317354543902798
+resolution =  64, L2 norm error is 0.00046961859970509026
+
+lmax = 30
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is
+resolution =  64, L2 norm error is 0.0004945769874907166
+
+a3 = 0.10
+e = 0.5
+limit(-0.5, 0.5)
+with renormalized mass
+evaluated at cell center
+lmax = 10
+resolution =  16, L2 norm error is 0.03256562450038669
+resolution =  32, L2 norm error is 0.0016327021930182353
+resolution =  64, L2 norm error is 0.0006030939453466792
+lmax = 20
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is
+resolution =  64, L2 norm error is
+
+lmax = 30
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is
+resolution =  64, L2 norm error is
+
+a3 = 0.10
+e = 0.5
+limit(-0.5, 0.5)
+with renormalized mass
+evaluated at cell faces
+lmax = 10
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is 0.0016327021930182353
+resolution =  64, L2 norm error is 0.0004538954780179209
+
+lmax = 20
+# best
+resolution =  16, L2 norm error is 0.09069983370535117
+resolution =  32, L2 norm error is 0.004900338154982394
+resolution =  64, L2 norm error is 0.00046961859970509026
+
+lmax = 30
+resolution =  16, L2 norm error is
+resolution =  32, L2 norm error is
+resolution =  64, L2 norm error is 0.0004945769874907166
+
+a3 = 0.10
 e = 0.9
+limit(-0.5, 0.5)
 lmax = 10
 resolution =  16, L2 norm error is 0.03029645184414015
 resolution =  32, L2 norm error is 0.0031523162477898746
